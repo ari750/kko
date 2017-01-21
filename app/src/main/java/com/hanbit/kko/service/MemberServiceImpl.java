@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public ArrayList<MemberBean> list() {
-        return null;
+        return dao.selectAll();
     }
 
     @Override
@@ -35,8 +35,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberBean serachById() {
-        return null;
+    public MemberBean serachById(String id) {
+        return dao.selectById(id);
     }
 
     @Override
@@ -60,11 +60,11 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void modify(MemberBean param) {
-
+        dao.update(param);
     }
 
     @Override
     public void unregist(String id) {
-
+        dao.delete(id);
     }
 }

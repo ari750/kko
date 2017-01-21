@@ -52,14 +52,14 @@ public class MemberDAO extends SQLiteOpenHelper{ //alt + 엔터
                 ");    ");
 /*
         db.execSQL("INSERT INTO Member(id,pw,name,email,phone,photo,addr)\n" +
-                "VALUES('hong','1','홍길동','hong@test.com','010-2449-4191','default.jpg','서울');");
+                "VALUES('hong','1','홍길동','hong@test.com','010-2449-4191','default_profile','서울');");
 
         db.execSQL("INSERT INTO Member(id,pw,name,email,phone,photo,addr)\n" +
-                "VALUES('kim','1','김유신','hong@test.com','010-2449-4191','default.jpg','서울');");
+                "VALUES('kim','1','김유신','hong@test.com','010-2449-4191','default_profile','서울');");
         db.execSQL("INSERT INTO Member(id,pw,name,email,phone,photo,addr)\n" +
-                "VALUES('Lee','1','이유경','hong@test.com','010-2449-4191','default.jpg','서울');");
+                "VALUES('Lee','1','이유경','hong@test.com','010-2449-4191','default_profile','서울');");
         db.execSQL("INSERT INTO Member(id,pw,name,email,phone,photo,addr)\n" +
-                "VALUES('Kang','1','강소라','hong@test.com','010-2449-4191','default.jpg','서울');");
+                "VALUES('Kang','1','강소라','hong@test.com','010-2449-4191','default_profile','서울');");
 */
     }
 
@@ -78,25 +78,56 @@ public class MemberDAO extends SQLiteOpenHelper{ //alt + 엔터
     }
     public ArrayList<MemberBean> selectAll() {                    //readAll
         ArrayList<MemberBean> list = new ArrayList<MemberBean>();
-        String sql = " ";
+        String sql = "SELECT id,pw,name,email,phone,photo,addr FROM MEMBER ";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
+        if(cursor != null){
+            Log.d("member !!","Exist !!");
+            cursor.moveToFirst();
+        }
+        do{
+            MemberBean member = new MemberBean();
+            member.setId(cursor.getString(0));
+            member.setPw(cursor.getString(1));
+            member.setName(cursor.getString(2));
+            member.setEmail(cursor.getString(3));
+            member.setPhone(cursor.getString(4));
+            member.setPhoto(cursor.getString(5));
+            member.setAadr(cursor.getString(6));
+            list.add(member);
+        }while(cursor.moveToNext());
+        Log.d("Member Count",String.valueOf(list.size()));
         return list;
     }
 
     public ArrayList<MemberBean> selectByName(String name) {
         return null;
     }
-    public MemberBean selectById(){                          //readOne
+
+    public MemberBean selectById(String id){                          //readOne
         MemberBean member = new MemberBean();
-        String sql = "";
+        String sql = "SELECT id,pw,name,email,phone,photo,addr FROM member WHERE id = '"+id+"';";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
+        if(cursor.moveToNext()){
+
+            Log.d("ID결과:",cursor.getString(0));
+            member.setId(cursor.getString(0));
+            member.setPw(cursor.getString(1));
+            member.setName(cursor.getString(2));
+            member.setEmail(cursor.getString(3));
+            member.setPhone(cursor.getString(4));
+            member.setPhoto(cursor.getString(5));
+            member.setAadr(cursor.getString(6));
+
+        }else{
+            member.setId("fail");
+        }
         return member;
     }
     public MemberBean login(MemberBean param){                 //보안상 bean으로 id,pw전달
         MemberBean member = new MemberBean();
-        String sql = "SELECT id, pw,name,email,phone,photo,addr FROM member WHERE id = '"+param.getId()+"' AND pw = '"+param.getPw()+"' ";
+        String sql = "SELECT id,pw,name,email,phone,photo,addr FROM member WHERE id = '"+param.getId()+"' AND pw = '"+param.getPw()+"' ";
         Log.d("login SQL:",sql);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
@@ -125,13 +156,14 @@ public class MemberDAO extends SQLiteOpenHelper{ //alt + 엔터
         return count;
     }
     public void update(MemberBean param){                   //updateMember
-        String sql = "";
+        String sql = "UPDATE Member SET pw ='"+param.getPw()+"', name ='"+param.getName()+"', phone='"+param.getPhone()+"', addr = '"+param.getAadr()+"', photo = '"+param.getPhoto()+"'" +
+                " WHERE id = '"+param.getId()+"'";
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(sql);
         db.close();
     }
     public void delete(String id){                          //deleteMember
-        String sql = "";
+        String sql = "DELETE FROM Member WHERE id = '"+id+"'";
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(sql);
         db.close();

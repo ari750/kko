@@ -15,7 +15,7 @@ public interface MemberService {
     public void regist(MemberBean param);               //createMember
     public ArrayList<MemberBean> list();                    //readAll
     public ArrayList<MemberBean> serachByName(String name); //readGroup
-    public MemberBean serachById();                    //readOne
+    public MemberBean serachById(String id);                    //readOne
     public boolean login(MemberBean param);           //보안상 bean으로 id,pw전달
     public int count();                               //readCount
     public void modify(MemberBean param);             //updateMember

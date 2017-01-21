@@ -4,23 +4,35 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:src="@drawable/kakao_bak"
+        android:scaleType="centerCrop"
+        />
+
     <TextView android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="KAKAO"
+        android:text="Hello"
         android:textSize="30dp"
         android:textAlignment="center"/>
     <Button
-        android:id="@+id/btJoin"
+        android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="JOIN"
+        android:text="로그인"
+        android:textColor="#FFFFFF"
         android:textSize="20dp"
-        android:gravity="center"/>
+        android:gravity="center"
+        />
     <Button
-        android:id="@+id/btLogin"
+        android:id="@+id/regist_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
+        android:text="계정생성"
+        android:textColor="#FFFFFF"
         android:textSize="20dp"
-        android:gravity="center"/>
+        android:gravity="center"
+        />
 </LinearLayout>
